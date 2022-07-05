@@ -33,7 +33,7 @@ async function main() {
       },
       {
         name: '부산',
-        population: 350,
+        population: 342,
       },
     ]);
 
@@ -141,18 +141,17 @@ async function main() {
       {
         $lookup: {
           from: 'cities',
-          localField: 'city',
           foreignField: 'name',
-          as: 'city_info',
+          localField: 'city',
+          as: 'city_detail',
         },
       },
-      // filter
       {
         $match: {
           // $or도 사용 가능
           $and: [
             {
-              'city_info.population': {
+              'city_detail.population': {
                 $gte: 500,
               },
             },
@@ -164,9 +163,9 @@ async function main() {
           ],
         },
       },
-      {
-        $count: 'number of users',
-      },
+      // {
+      //   $count: 'number of users',
+      // },
     ]);
 
     await cursor.forEach(console.log);
